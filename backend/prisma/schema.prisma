@@ -22,6 +22,12 @@ datasource db {
   about String
   dateOfBirth DateTime 
 
+<<<<<<< HEAD
+=======
+
+
+  history History[]
+>>>>>>> 3fed8a0 (Feitos alguns models e dtos, e BD feito)
   playlists UserPlaylist[]
   artist Followers[]
   ownedPlaylists Playlist[]
@@ -108,6 +114,11 @@ model Song{
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+<<<<<<< HEAD
+=======
+
+  histories SongHistory[]
+>>>>>>> 3fed8a0 (Feitos alguns models e dtos, e BD feito)
   moods SongMood[]
   genres SongGenre[]
   likedBy Likes[]
@@ -231,3 +242,25 @@ model SongMood{
   @@map("songMoods")
 }
 
+model History{
+  id String @id @default(uuid())
+
+  userId String
+
+
+  user User @relation(fields:[userId], references: [id])
+  songHistory SongHistory[]
+
+  @@map("histories")
+}
+
+model SongHistory{
+  id String @id @default(uuid())
+  songId String
+  historyId String
+
+  song Song @relation(fields:[songId], references: [id])
+  history History @relation(fields:[historyId], references: [id])
+
+  @@map("songHistories")
+}
