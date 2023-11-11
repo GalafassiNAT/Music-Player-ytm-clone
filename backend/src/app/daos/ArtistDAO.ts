@@ -4,7 +4,7 @@ import { Artist } from "../models/Artist";
 
 
 
-export class UrtistDAO {
+export class ArtistDAO {
 	dbConnection: PrismaConnection;
 	
 	constructor(dbConnection: PrismaConnection){
