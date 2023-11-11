@@ -17,6 +17,7 @@ model User {
   profilePicture String
   about          String
   dateOfBirth    DateTime
+
   artist         Followers[]
   history        History[]
   likedSongs     Likes[]
@@ -77,7 +78,7 @@ model Song {
   id            String          @id @default(uuid())
   name          String
   duration      Int
-  AlbumId       String
+  albumId       String
   description   String
   contentURL    String
   numberOfLikes Int
@@ -93,9 +94,9 @@ model Song {
   songgenres    songgenres[]
   songhistories songhistories[]
   songmoods     songmoods[]
-  album         Album           @relation(fields: [AlbumId], references: [id])
+  album         Album           @relation(fields: [albumId], references: [id])
 
-  @@index([AlbumId], map: "songs_AlbumId_fkey")
+  @@index([albumId], map: "songs_AlbumId_fkey")
   @@map("songs")
 }
 
@@ -122,7 +123,7 @@ model Likes {
   id        String   @id @default(uuid())
   userId    String
   songId    String
-  CreatedAt DateTime @default(now())
+  createdAt DateTime @default(now())
 
   song      Song     @relation(fields: [songId], references: [id])
   user      User     @relation(fields: [userId], references: [id])
@@ -145,7 +146,7 @@ model Genre {
 model Mood {
   id        String      @id @default(uuid())
   name      String
-  CreatedAt DateTime    @default(now())
+  createdAt DateTime    @default(now())
 
   songmoods songmoods[]
 
@@ -155,6 +156,8 @@ model Mood {
 model History {
   id            String          @id @default(uuid())
   userId        String
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime @updatedAt
 
   user          User            @relation(fields: [userId], references: [id])
   songhistories songhistories[]
@@ -164,7 +167,7 @@ model History {
 }
 
 model artistsongs {
-  id        String   @id
+  id        String   @id @default(uuid())
   artistId  String
   songId    String
   createdAt DateTime @default(now())
@@ -177,10 +180,10 @@ model artistsongs {
 }
 
 model playlistsongs {
-  id         String   @id
+  id         String   @id @default(uuid())
   playlistId String
   songId     String
-  CreatedAt  DateTime @default(now())
+  createdAt  DateTime @default(now())
 
   playlists  Playlist @relation(fields: [playlistId], references: [id], map: "playlistSongs_playlistId_fkey")
   songs      Song     @relation(fields: [songId], references: [id], map: "playlistSongs_songId_fkey")
@@ -190,10 +193,10 @@ model playlistsongs {
 }
 
 model songgenres {
-  id        String   @id
+  id        String   @id @default(uuid())
   songId    String
   genreId   String
-  CreatedAt DateTime @default(now())
+  createdAt DateTime @default(now())
 
   genres    Genre    @relation(fields: [genreId], references: [id], map: "songGenres_genreId_fkey")
   songs     Song     @relation(fields: [songId], references: [id], map: "songGenres_songId_fkey")
@@ -203,7 +206,7 @@ model songgenres {
 }
 
 model songhistories {
-  id        String   @id
+  id        String   @id @default(uuid())
   songId    String
   historyId String
   createdAt DateTime @default(now())
@@ -216,7 +219,7 @@ model songhistories {
 }
 
 model songmoods {
-  id        String   @id
+  id        String   @id @default(uuid())
   moodId    String
   songId    String
   createdAt DateTime @default(now())
@@ -229,7 +232,7 @@ model songmoods {
 }
 
 model useralbums {
-  id        String   @id
+  id        String   @id @default(uuid())
   userId    String
   albumId   String
   createdAt DateTime @default(now())
@@ -242,11 +245,11 @@ model useralbums {
 }
 
 model userplaylists {
-  id         String   @id
+  id         String   @id @default(uuid())
   userId     String
   playlistId String
-  CreatedAt  DateTime @default(now())
-  
+  createdAt  DateTime @default(now())
+
   playlists  Playlist @relation(fields: [playlistId], references: [id], map: "userPlaylists_playlistId_fkey")
   users      User     @relation(fields: [userId], references: [id], map: "userPlaylists_userId_fkey")
 

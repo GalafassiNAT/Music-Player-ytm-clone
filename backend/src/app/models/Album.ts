@@ -6,7 +6,7 @@ export class Album{
 	image: string;
 	releaseDate: Date;
 	createdAt: Date;
-	UpdatedAt: Date;
+	updatedAt: Date;
 
 	constructor(id: string, name: string, artistId: string, description: string, image: string, releaseDate: Date, createdAt: Date, updatedAt: Date){
 		this.id = id;
@@ -16,6 +16,6 @@ export class Album{
 		this.image = image;
 		this.releaseDate = releaseDate;
 		this.createdAt = createdAt;
-		this.UpdatedAt = updatedAt;
+		this.updatedAt = updatedAt;
 	}
 }

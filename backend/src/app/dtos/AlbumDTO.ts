@@ -5,7 +5,7 @@ export class AlbumDTO{
 	image: string;
 	releaseDate: Date;
 	createdAt: Date;
-	UpdatedAt: Date;
+	updatedAt: Date;
 
 	constructor(name: string, artistId: string, description: string, image: string, releaseDate: Date, createdAt: Date, updatedAt: Date){
 		this.name = name;
@@ -14,6 +14,6 @@ export class AlbumDTO{
 		this.image = image;
 		this.releaseDate = releaseDate;
 		this.createdAt = createdAt;
-		this.UpdatedAt = updatedAt;
+		this.updatedAt = updatedAt;
 	}
 }

@@ -13,13 +13,13 @@ export class UserDAO {
 	}
 
 
-	async Create(data: UserDTO): Promise<User>{
+	async create(data: UserDTO): Promise<User>{
 		const user = await this.dbConnection.client.user.create({data: data});
 		return user;
 	}
 	
 
-	async Update(where : User, data: UserDTO): Promise<UserDTO | null>{
+	async update(where : User, data: UserDTO): Promise<UserDTO | null>{
 		
 		if(!where)
 			return null;
@@ -32,7 +32,7 @@ export class UserDAO {
 		}
 	}
 
-	async Delete(where: User): Promise<UserDTO | null>{
+	async delete(where: User): Promise<UserDTO | null>{
 		
 		if(!where)
 			return null;
@@ -44,7 +44,7 @@ export class UserDAO {
 		}
 	}
 
-	async Get(where: User): Promise<UserDTO | null>{
+	async get(where: User): Promise<UserDTO | null>{
 		if(!where)
 			return null;
 

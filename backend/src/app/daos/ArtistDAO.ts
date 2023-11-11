@@ -13,13 +13,13 @@ export class ArtistDAO {
 	}
 
 
-	async Create(data: ArtistDTO): Promise<Artist>{
+	async create(data: ArtistDTO): Promise<Artist>{
 		const artist = await this.dbConnection.client.artist.create({data: data});
 		return artist;
 	}
 	
 
-	async Update(where : Artist, data: ArtistDTO): Promise<ArtistDTO | null>{
+	async update(where : Artist, data: ArtistDTO): Promise<ArtistDTO | null>{
 		
 		if(!where)
 			return null;
@@ -32,7 +32,7 @@ export class ArtistDAO {
 		}
 	}
 
-	async Delete(where: Artist): Promise<ArtistDTO | null>{
+	async delete(where: Artist): Promise<ArtistDTO | null>{
 		
 		if(!where)
 			return null;
@@ -44,7 +44,7 @@ export class ArtistDAO {
 		}
 	}
 
-	async Get(where: Artist): Promise<ArtistDTO | null>{
+	async get(where: Artist): Promise<ArtistDTO | null>{
 		if(!where)
 			return null;
 
