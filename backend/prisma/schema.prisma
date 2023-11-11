@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,251 +7,249 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
- model User{
-  id String @id @default(uuid())
-  userName String
-  email String
-  password String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  profilePicture Bytes
-  about String
-  dateOfBirth DateTime 
-
-
-  history History[]
-  playlists UserPlaylist[]
-  artist Followers[]
+model User {
+  id             String          @id @default(uuid())
+  userName       String
+  email          String
+  password       String
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  profilePicture String
+  about          String
+  dateOfBirth    DateTime
+  artist         Followers[]
+  history        History[]
+  likedSongs     Likes[]
   ownedPlaylists Playlist[]
-  albums UserAlbum[]
-  likedSongs Likes[]
+  useralbums     useralbums[]
+  userplaylists  userplaylists[]
+
   @@map("users")
 }
 
 model Artist {
-  id String @id @default(uuid())
-  name String
-  about String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  profilePicture Bytes
+  id                String        @id @default(uuid())
+  name              String
+  about             String
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+  profilePicture    String
   numberOfFollowers Int
-
-
-  songs ArtistSong[]
-  followers Followers[]
-  albums Album[]
+  albums            Album[]
+  artistsongs       artistsongs[]
+  followers         Followers[]
 
   @@map("artists")
 }
 
-model Followers{
-  id String @id @default(uuid())
-  userId String
-  artistId String
+model Followers {
+  id        String   @id @default(uuid())
+  userId    String
+  artistId  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  artist    Artist   @relation(fields: [artistId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
 
-  user User @relation(fields: [userId], references: [id])
-  artist Artist @relation(fields: [artistId], references: [id])
-
- @@map("followers") 
+  @@index([artistId], map: "followers_artistId_fkey")
+  @@index([userId], map: "followers_userId_fkey")
+  @@map("followers")
 }
 
 model Album {
-  id String @id @default(uuid())
-  name String
-  artistId String
+  id          String       @id @default(uuid())
+  name        String
+  artistId    String
   description String
-  image Bytes
-
+  image       String
   releaseDate DateTime
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  artist      Artist       @relation(fields: [artistId], references: [id])
+  song        Song[]
+  useralbums  useralbums[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  
-  song Song[]
-  artist Artist @relation(fields:[artistId], references: [id])
-  listeners UserAlbum[]
-
+  @@index([artistId], map: "albums_artistId_fkey")
   @@map("albums")
 }
 
-
-model ArtistSong{
-  id String @id @default(uuid())
-  artistId String
-  songId String
-  createdAt DateTime @default(now())
-
-
-  artist Artist @relation(fields:[artistId], references: [id])
-  song Song @relation(fields:[songId], references: [id])
-  @@map("artistSongs")
-}
-
-model Song{
-  id String @id @default(uuid()) 
-  name String
-  duration Int 
-  AlbumId String
-  description String
-  contentURL String
+model Song {
+  id            String          @id @default(uuid())
+  name          String
+  duration      Int
+  AlbumId       String
+  description   String
+  contentURL    String
   numberOfLikes Int
+  releaseDate   DateTime
+  filePath      String
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  cover        String
 
-  releaseDate DateTime
+  artistsongs   artistsongs[]
+  likedBy       Likes[]
+  playlistsongs playlistsongs[]
+  songgenres    songgenres[]
+  songhistories songhistories[]
+  songmoods     songmoods[]
+  album         Album           @relation(fields: [AlbumId], references: [id])
 
-  filePath String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-
-  histories SongHistory[]
-  moods SongMood[]
-  genres SongGenre[]
-  likedBy Likes[]
-  artists ArtistSong[]
-  album Album @relation(fields: [AlbumId], references: [id])
-  playlists PlaylistSong[]
+  @@index([AlbumId], map: "songs_AlbumId_fkey")
   @@map("songs")
-  
 }
 
-model PlaylistSong{
-  id String @id @default(uuid())
-  playlistId String
-  songId String
-  CreatedAt DateTime @default(now())
+model Playlist {
+  id            String          @id @default(uuid())
+  name          String
+  image         String
+  userId        String
+  description   String
+  songCount     Int
+  isPublic      Boolean
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
 
-  playlist Playlist @relation(fields:[playlistId], references: [id])
-  song Song @relation(fields:[songId], references: [id])
+  user          User            @relation(fields: [userId], references: [id])
+  playlistsongs playlistsongs[]
+  userplaylists userplaylists[]
 
-  @@map("playlistSongs")
-}
-
-model UserPlaylist {
-  id String @id @default(uuid())
-  userId String
-  playlistId String
-  CreatedAt DateTime @default(now())
-
-  user User @relation(fields:[userId], references: [id])
-  playlist Playlist @relation(fields:[playlistId], references: [id])
-
-  
-  @@map("userPlaylists")
-}
-
-
-model Playlist{
-  id String @id @default(uuid())
-  name String 
-  image Bytes
-  userId String
-  description String
-  songCount Int
-  isPublic Boolean
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  user User @relation(fields:[userId], references: [id])
-  users UserPlaylist[]
-  songs PlaylistSong[]
-
-
-@@map("playlists")
-}
-
-model UserAlbum{
-  id String @id @default(uuid())
-  userId String
-  albumId String
-  createdAt DateTime @default(now())
-
-  user User @relation(fields: [userId], references: [id])
-  album Album @relation(fields: [albumId], references: [id])
-
-  @@map("userAlbums")
+  @@index([userId], map: "playlists_userId_fkey")
+  @@map("playlists")
 }
 
 model Likes {
-  id String @id @default(uuid())
-  userId String
-  songId String
+  id        String   @id @default(uuid())
+  userId    String
+  songId    String
   CreatedAt DateTime @default(now())
 
-  user User @relation(fields:[userId], references:[id])
-  song Song @relation(fields:[songId], references:[id])
+  song      Song     @relation(fields: [songId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
 
-
+  @@index([songId], map: "likes_songId_fkey")
+  @@index([userId], map: "likes_userId_fkey")
   @@map("likes")
 }
 
-model Genre{
-  id String @id @default(uuid())
-  name String
-  createdAt DateTime @default(now())
+model Genre {
+  id         String       @id @default(uuid())
+  name       String
+  createdAt  DateTime     @default(now())
 
-  songs SongGenre[]
+  songgenres songgenres[]
 
   @@map("genres")
 }
 
-model Mood{
-  id String @id @default(uuid())
-  name String
-  CreatedAt DateTime @default(now())
+model Mood {
+  id        String      @id @default(uuid())
+  name      String
+  CreatedAt DateTime    @default(now())
 
-  songs SongMood[]
+  songmoods songmoods[]
 
   @@map("moods")
 }
 
-model SongGenre{
-  id String @id @default(uuid())
-  songId String
-  genreId String
-  CreatedAt DateTime @default(now())
-  song Song @relation(fields:[songId], references: [id])
-  genre Genre @relation(fields:[genreId], references: [id])
+model History {
+  id            String          @id @default(uuid())
+  userId        String
 
-  @@map("songGenres")
-}
+  user          User            @relation(fields: [userId], references: [id])
+  songhistories songhistories[]
 
-model SongMood{
-  id String @id @default(uuid())
-  moodId String
-  songId String
-  createdAt DateTime @default(now())
-
-  song Song @relation(fields:[songId], references: [id])
-  mood Mood @relation(fields:[moodId], references: [id])
-
-  @@map("songMoods")
-}
-
-model History{
-  id String @id @default(uuid())
-
-  userId String
-
-
-  user User @relation(fields:[userId], references: [id])
-  songHistory SongHistory[]
-
+  @@index([userId], map: "histories_userId_fkey")
   @@map("histories")
 }
 
-model SongHistory{
-  id String @id @default(uuid())
-  songId String
+model artistsongs {
+  id        String   @id
+  artistId  String
+  songId    String
+  createdAt DateTime @default(now())
+
+  artists   Artist   @relation(fields: [artistId], references: [id], map: "artistSongs_artistId_fkey")
+  songs     Song     @relation(fields: [songId], references: [id], map: "artistSongs_songId_fkey")
+
+  @@index([artistId], map: "artistSongs_artistId_fkey")
+  @@index([songId], map: "artistSongs_songId_fkey")
+}
+
+model playlistsongs {
+  id         String   @id
+  playlistId String
+  songId     String
+  CreatedAt  DateTime @default(now())
+
+  playlists  Playlist @relation(fields: [playlistId], references: [id], map: "playlistSongs_playlistId_fkey")
+  songs      Song     @relation(fields: [songId], references: [id], map: "playlistSongs_songId_fkey")
+
+  @@index([playlistId], map: "playlistSongs_playlistId_fkey")
+  @@index([songId], map: "playlistSongs_songId_fkey")
+}
+
+model songgenres {
+  id        String   @id
+  songId    String
+  genreId   String
+  CreatedAt DateTime @default(now())
+
+  genres    Genre    @relation(fields: [genreId], references: [id], map: "songGenres_genreId_fkey")
+  songs     Song     @relation(fields: [songId], references: [id], map: "songGenres_songId_fkey")
+
+  @@index([genreId], map: "songGenres_genreId_fkey")
+  @@index([songId], map: "songGenres_songId_fkey")
+}
+
+model songhistories {
+  id        String   @id
+  songId    String
   historyId String
   createdAt DateTime @default(now())
 
-  song Song @relation(fields:[songId], references: [id])
-  history History @relation(fields:[historyId], references: [id])
+  histories History  @relation(fields: [historyId], references: [id], map: "songHistories_historyId_fkey")
+  songs     Song     @relation(fields: [songId], references: [id], map: "songHistories_songId_fkey")
 
-  @@map("songHistories")
+  @@index([historyId], map: "songHistories_historyId_fkey")
+  @@index([songId], map: "songHistories_songId_fkey")
+}
+
+model songmoods {
+  id        String   @id
+  moodId    String
+  songId    String
+  createdAt DateTime @default(now())
+
+  moods     Mood     @relation(fields: [moodId], references: [id], map: "songMoods_moodId_fkey")
+  songs     Song     @relation(fields: [songId], references: [id], map: "songMoods_songId_fkey")
+
+  @@index([moodId], map: "songMoods_moodId_fkey")
+  @@index([songId], map: "songMoods_songId_fkey")
+}
+
+model useralbums {
+  id        String   @id
+  userId    String
+  albumId   String
+  createdAt DateTime @default(now())
+
+  albums    Album    @relation(fields: [albumId], references: [id], map: "userAlbums_albumId_fkey")
+  users     User     @relation(fields: [userId], references: [id], map: "userAlbums_userId_fkey")
+
+  @@index([albumId], map: "userAlbums_albumId_fkey")
+  @@index([userId], map: "userAlbums_userId_fkey")
+}
+
+model userplaylists {
+  id         String   @id
+  userId     String
+  playlistId String
+  CreatedAt  DateTime @default(now())
+  
+  playlists  Playlist @relation(fields: [playlistId], references: [id], map: "userPlaylists_playlistId_fkey")
+  users      User     @relation(fields: [userId], references: [id], map: "userPlaylists_userId_fkey")
+
+  @@index([playlistId], map: "userPlaylists_playlistId_fkey")
+  @@index([userId], map: "userPlaylists_userId_fkey")
 }
