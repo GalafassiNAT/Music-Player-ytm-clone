@@ -251,6 +251,7 @@ model SongHistory{
   id String @id @default(uuid())
   songId String
   historyId String
+  createdAt DateTime @default(now())
 
   song Song @relation(fields:[songId], references: [id])
   history History @relation(fields:[historyId], references: [id])
