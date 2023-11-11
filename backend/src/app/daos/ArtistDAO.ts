@@ -25,8 +25,8 @@ export class ArtistDAO {
 			return null;
 
 		try {
-			const urtist = await this.dbConnection.client.artist.update({where, data});
-			return urtist;
+			const artist = await this.dbConnection.client.artist.update({where, data});
+			return artist;
 		} catch (error) {
 			return null;
 		}
@@ -37,8 +37,8 @@ export class ArtistDAO {
 		if(!where)
 			return null;
 		try{
-			const urtist = await this.dbConnection.client.artist.delete({where});
-			return urtist;
+			const artist = await this.dbConnection.client.artist.delete({where});
+			return artist;
 		}catch(error){
 			return null;
 		}
@@ -48,8 +48,8 @@ export class ArtistDAO {
 		if(!where)
 			return null;
 
-		const urtist = await this.dbConnection.client.artist.findUnique({where});
-		return urtist;
+		const artist = await this.dbConnection.client.artist.findUnique({where});
+		return artist;
 	}
 }
 
