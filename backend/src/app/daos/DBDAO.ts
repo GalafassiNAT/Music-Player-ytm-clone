@@ -6,10 +6,20 @@ export interface DBConnectionInterface{
 }
 
 export class PrismaConnection implements DBConnectionInterface{
+	private static instance: PrismaConnection;
 	private readonly prisma: PrismaClient;
 
-	constructor(prisma: PrismaClient){
+	private constructor(prisma: PrismaClient){
 		this.prisma = prisma;
+		this.connect();
+	}
+
+	public static getInstance(): PrismaConnection{
+
+		if(!PrismaConnection.instance){
+			PrismaConnection.instance = new PrismaConnection(new PrismaClient());
+		}
+		return PrismaConnection.instance;
 	}
 
 	connect(): void{
