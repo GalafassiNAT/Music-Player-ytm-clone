@@ -7,9 +7,8 @@ import { User } from "../models/User";
 export class UserDAO {
 	dbConnection: PrismaConnection;
 	
-	constructor(dbConnection: PrismaConnection){
-		this.dbConnection = dbConnection;
-		this.dbConnection.connect();
+	constructor(){
+		this.dbConnection = PrismaConnection.getInstance();
 	}
 
 
