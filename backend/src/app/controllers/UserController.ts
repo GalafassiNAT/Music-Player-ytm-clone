@@ -13,8 +13,9 @@ export class UserController{
 
 	static async updateByID(req: Request, res: Response){
 		const userDAO = new UserDAO();
-		const user = await userDAO.update(req.params, req.body);
-		res.json(user);
+		const user: User = {id: req.params.id, ...req.body};
+		const updatedUser = await userDAO.update({id: req.params.id}, req.body);
+		res.json(updatedUser);
 	}
 
 }

@@ -18,10 +18,10 @@ export class UserDAO {
 	}
 	
 
-	async update(where : User, data: UserDTO): Promise<UserDTO | null>{
+	async update(where: {id: string} , data: UserDTO): Promise<UserDTO | null>{
+		if(!where) return null;
 		
-		if(!where)
-			return null;
+	
 
 		try {
 			const user = await this.dbConnection.client.user.update({where, data});
@@ -43,11 +43,18 @@ export class UserDAO {
 		}
 	}
 
-	async get(where: User): Promise<UserDTO | null>{
+	async get(where: string): Promise<UserDTO | null>{
 		if(!where)
 			return null;
 
-		const user = await this.dbConnection.client.user.findUnique({where});
+		const user = await this.dbConnection.client.user.findFirst({
+			where: {
+				OR: [
+					{id: where}, 
+					{email: where}
+				]
+			}
+		});
 		return user;
 	}
 }
