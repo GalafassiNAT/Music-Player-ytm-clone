@@ -1,5 +1,5 @@
 import "express-async-errors";
-import {Request, Response } from "express";
+import { Request, Response } from "express";
 import express from "express";
 import { AppError } from "./src/app/errors/AppError";
 

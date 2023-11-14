@@ -1,6 +1,7 @@
 import { PrismaConnection } from "./DBDAO";
 import { UserDTO } from "../dtos/UserDTO";
 import { User } from "../models/User";	
+import { AppError } from "../errors/AppError";
 
 
 
@@ -13,33 +14,37 @@ export class UserDAO {
 
 
 	async create(data: UserDTO): Promise<User>{
+		if (await this.get(data.email)) throw new AppError("User already exists");
+		
 		const user = await this.dbConnection.client.user.create({data: data});
 		return user;
 	}
 	
 
-	async update(where: {id: string} , data: UserDTO): Promise<UserDTO | null>{
+	async update(where: Partial<User> , data: UserDTO): Promise<UserDTO | null>{
 		if(!where) return null;
 		
-	
-
 		try {
-			const user = await this.dbConnection.client.user.update({where, data});
+			const user = await this.dbConnection.client.user.update({
+				where: {
+					email: where.email,
+					id: where.id
+				}, data});
 			return user;
-		} catch (error) {
-			return null;
+		} catch (error) {	
+			throw new AppError("User not found");
 		}
 	}
 
-	async delete(where: User): Promise<UserDTO | null>{
+	async delete(where: Partial<User>): Promise<UserDTO | null>{
 		
 		if(!where)
 			return null;
 		try{
-			const user = await this.dbConnection.client.user.delete({where});
+			const user = await this.dbConnection.client.user.delete({where: {id: where.id, email: where.email}});
 			return user;
 		}catch(error){
-			return null;
+			throw new AppError("User not found");
 		}
 	}
 
@@ -55,7 +60,12 @@ export class UserDAO {
 				]
 			}
 		});
-		return user;
+		return user;	
+	}
+
+	async getAll(): Promise<UserDTO[]>{
+		const users = await this.dbConnection.client.user.findMany();
+		return users;
 	}
 }
 
