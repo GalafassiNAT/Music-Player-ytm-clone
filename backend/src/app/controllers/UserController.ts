@@ -29,7 +29,8 @@ export class UserController{
 
 	static async  updateByEmail(req: Request, res: Response){
 		const userDAO = new UserDAO();
-		const updatedUser = await userDAO.update({email: req.params.email}, req.body);
+		const DTO = req.body as UserDTO;
+		const updatedUser = await userDAO.update({email: req.params.email}, DTO);
 		if(!updatedUser) throw new AppError("No information provided to update user");
 		
 		res.json(updatedUser);
@@ -63,10 +64,26 @@ export class UserController{
 		const userDAO = new UserDAO();
 		const user = await userDAO.get(req.params.email);
 		if(!user) throw new AppError("User not found");
+		const userDTO = new UserDTO(user.userName, user.email, user.password, user.about, user.dateOfBirth, user.createdAt, user.updatedAt, user.profilePicture);
 		
-		res.json(user);
+		res.json(userDTO);
 	}
 
+	static async getAll(){
+		const userDAO = new UserDAO();
+		const users = await userDAO.getAll();
+		if(!users) throw new AppError("No users found");
+		
+		return users;
+	}
 	
+	static async getAllByName(req: Request, res: Response){
+		const userDAO = new UserDAO();
+		
+		const users = await userDAO.getAllWhere({userName: req.params.name});
+		if(!users) throw new AppError("No users found");
+		
+		res.json(users);
+	}
 
 }

@@ -1,3 +1,4 @@
+import {Artist} from "./Artist";
 export class Song{
 	id: string;
 	name: string;
@@ -11,8 +12,9 @@ export class Song{
 	filePath: string;
 	createdAt: Date;
 	updatedAt: Date;
+	artists: Artist[];
 
-	constructor(id: string, name: string, duration: number, albumId: string, description: string, contentURL: string, cover: string,numberOfLikes: number, releaseDate: Date, filePath: string, createdAt: Date, updatedAt: Date){
+	constructor(id: string, name: string, duration: number, albumId: string, description: string, contentURL: string, cover: string,numberOfLikes: number, releaseDate: Date, filePath: string, createdAt: Date, updatedAt: Date, artists: Artist[]){
 		this.id = id;
 		this.name = name;
 		this.duration = duration;
@@ -25,5 +27,6 @@ export class Song{
 		this.filePath = filePath;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
+		this.artists = artists;
 	}
 }

@@ -63,6 +63,7 @@ model Album {
   artistId    String
   description String
   image       String
+  duration    Int
   releaseDate DateTime
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt

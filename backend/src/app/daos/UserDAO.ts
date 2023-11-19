@@ -6,6 +6,7 @@ import { AppError } from "../errors/AppError";
 
 
 export class UserDAO {
+	
 	dbConnection: PrismaConnection;
 	
 	constructor(){
@@ -48,7 +49,7 @@ export class UserDAO {
 		}
 	}
 
-	async get(where: string): Promise<UserDTO | null>{
+	async get(where: string): Promise<User | null>{
 		if(!where)
 			return null;
 
@@ -67,5 +68,14 @@ export class UserDAO {
 		const users = await this.dbConnection.client.user.findMany();
 		return users;
 	}
+
+	async getAllWhere(where: Partial<User>): Promise<UserDTO[]>{
+		if(!where)
+			return [];
+		
+		const users = await this.dbConnection.client.user.findMany({where: where});
+		return users;
+	}
+
 }
 
