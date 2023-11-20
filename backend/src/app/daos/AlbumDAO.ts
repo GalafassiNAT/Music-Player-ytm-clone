@@ -11,9 +11,40 @@ export class AlbumDAO{
 		this.dbConnection.connect();
 	}
 
-	async create(data: AlbumDTO): Promise<Album>{
-		const album = await this.dbConnection.client.album.create({data: data});
-		return album;
+	async create(data: Album): Promise<Album>{
+		const albumCreateInput = {
+			id: "",
+			duration: 0,
+			artist: data.artist,
+			name: data.name,
+			artistId: data.artistId,
+			description: data.description,
+			image: data.image,
+			releaseDate: data.releaseDate,
+			createdAt: data.createdAt,
+			updatedAt: data.updatedAt,
+			songs: data.songs,
+
+		};
+
+		const album = await this.dbConnection.client.album.create({
+			data:{
+				duration: albumCreateInput.duration,
+				name: albumCreateInput.name,
+				artistId: albumCreateInput.artistId,
+				description: albumCreateInput.description,
+				image: albumCreateInput.image,
+				releaseDate: albumCreateInput.releaseDate,
+			}
+		
+		});
+		
+		albumCreateInput.id = album.id;
+		albumCreateInput.createdAt = album.createdAt;
+		albumCreateInput.updatedAt = album.updatedAt;
+		
+		return albumCreateInput;
+		
 	}
 
 	async update(where : Album, data: AlbumDTO): Promise<AlbumDTO | null>{

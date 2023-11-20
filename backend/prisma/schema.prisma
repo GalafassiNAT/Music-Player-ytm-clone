@@ -67,6 +67,7 @@ model Album {
   releaseDate DateTime
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
+  
   artist      Artist       @relation(fields: [artistId], references: [id])
   song        Song[]
   useralbums  useralbums[]
@@ -96,8 +97,6 @@ model Song {
   songhistories songhistories[]
   songmoods     songmoods[]
   album         Album           @relation(fields: [albumId], references: [id])
-
-  @@index([albumId], map: "songs_AlbumId_fkey")
   @@map("songs")
 }
 

@@ -1,5 +1,4 @@
-
-import { Song } from "./Song";
+import { Song } from "../app/models/Song";
 
 export function totalDuration(songs: Song[]): number{
 	let totalDuration = 0;
