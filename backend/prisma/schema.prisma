@@ -44,7 +44,6 @@ model Artist {
 }
 
 model Followers {
-  id        String   @id @default(uuid())
   userId    String
   artistId  String
   createdAt DateTime @default(now())
@@ -55,6 +54,8 @@ model Followers {
   @@index([artistId], map: "followers_artistId_fkey")
   @@index([userId], map: "followers_userId_fkey")
   @@map("followers")
+
+  @@id([userId, artistId])
 }
 
 model Album {
@@ -120,7 +121,6 @@ model Playlist {
 }
 
 model Likes {
-  id        String   @id @default(uuid())
   userId    String
   songId    String
   createdAt DateTime @default(now())
@@ -131,6 +131,8 @@ model Likes {
   @@index([songId], map: "likes_songId_fkey")
   @@index([userId], map: "likes_userId_fkey")
   @@map("likes")
+
+  @@id([userId, songId])
 }
 
 model Genre {
@@ -167,7 +169,6 @@ model History {
 }
 
 model artistsongs {
-  id        String   @id @default(uuid())
   artistId  String
   songId    String
   createdAt DateTime @default(now())
@@ -177,10 +178,11 @@ model artistsongs {
 
   @@index([artistId], map: "artistSongs_artistId_fkey")
   @@index([songId], map: "artistSongs_songId_fkey")
+
+  @@id([artistId, songId])
 }
 
 model playlistsongs {
-  id         String   @id @default(uuid())
   playlistId String
   songId     String
   createdAt  DateTime @default(now())
@@ -190,10 +192,11 @@ model playlistsongs {
 
   @@index([playlistId], map: "playlistSongs_playlistId_fkey")
   @@index([songId], map: "playlistSongs_songId_fkey")
+
+  @@id([playlistId, songId])
 }
 
 model songgenres {
-  id        String   @id @default(uuid())
   songId    String
   genreId   String
   createdAt DateTime @default(now())
@@ -203,10 +206,11 @@ model songgenres {
 
   @@index([genreId], map: "songGenres_genreId_fkey")
   @@index([songId], map: "songGenres_songId_fkey")
+
+  @@id([songId, genreId])
 }
 
 model songhistories {
-  id        String   @id @default(uuid())
   songId    String
   historyId String
   createdAt DateTime @default(now())
@@ -216,10 +220,11 @@ model songhistories {
 
   @@index([historyId], map: "songHistories_historyId_fkey")
   @@index([songId], map: "songHistories_songId_fkey")
+
+  @@id([songId, historyId])
 }
 
 model songmoods {
-  id        String   @id @default(uuid())
   moodId    String
   songId    String
   createdAt DateTime @default(now())
@@ -229,10 +234,11 @@ model songmoods {
 
   @@index([moodId], map: "songMoods_moodId_fkey")
   @@index([songId], map: "songMoods_songId_fkey")
+
+  @@id([songId, moodId])
 }
 
 model useralbums {
-  id        String   @id @default(uuid())
   userId    String
   albumId   String
   createdAt DateTime @default(now())
@@ -242,10 +248,11 @@ model useralbums {
 
   @@index([albumId], map: "userAlbums_albumId_fkey")
   @@index([userId], map: "userAlbums_userId_fkey")
+
+  @@id([userId, albumId])
 }
 
 model userplaylists {
-  id         String   @id @default(uuid())
   userId     String
   playlistId String
   createdAt  DateTime @default(now())
@@ -255,4 +262,6 @@ model userplaylists {
 
   @@index([playlistId], map: "userPlaylists_playlistId_fkey")
   @@index([userId], map: "userPlaylists_userId_fkey")
+
+  @@id([userId, playlistId])
 }
