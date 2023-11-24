@@ -4,11 +4,11 @@ import { History } from "../models/History";
 
 export class HistoryDAO{
 	dbConnection: PrismaConnection;
-
-	constructor(dbConnection: PrismaConnection){
-		this.dbConnection = dbConnection;
-		this.dbConnection.connect();
+	
+	constructor(){
+		this.dbConnection = PrismaConnection.getInstance();
 	}
+
 
 	async create(data: HistoryDTO): Promise<History>{
 		const history = await this.dbConnection.client.history.create({data: data});

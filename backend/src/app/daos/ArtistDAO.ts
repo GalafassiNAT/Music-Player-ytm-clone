@@ -7,10 +7,10 @@ import { Artist } from "../models/Artist";
 export class ArtistDAO {
 	dbConnection: PrismaConnection;
 	
-	constructor(dbConnection: PrismaConnection){
-		this.dbConnection = dbConnection;
-		this.dbConnection.connect();
+	constructor(){
+		this.dbConnection = PrismaConnection.getInstance();
 	}
+
 
 
 	async create(data: ArtistDTO): Promise<Artist>{

@@ -4,11 +4,11 @@ import { Followers } from "../models/Followers";
 
 export class FollowersDAO{
 	dbConnection: PrismaConnection;
-
-	constructor(dbConnection: PrismaConnection){
-		this.dbConnection = dbConnection;
-		this.dbConnection.connect();
+	
+	constructor(){
+		this.dbConnection = PrismaConnection.getInstance();
 	}
+
 
 	async create(data: FollowersDTO): Promise<Followers>{
 		const followers = await this.dbConnection.client.followers.create({data: data});

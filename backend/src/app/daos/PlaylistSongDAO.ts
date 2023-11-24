@@ -4,11 +4,11 @@ import { PlaylistSong } from "../models/PlaylistSong";
 
 export class PlaylistSongDAO{
 	dbConnection: PrismaConnection;
-
-	constructor(dbConnection: PrismaConnection){
-		this.dbConnection = dbConnection;
-		this.dbConnection.connect();
+	
+	constructor(){
+		this.dbConnection = PrismaConnection.getInstance();
 	}
+
 
 	async create(data: PlaylistSongDTO): Promise<PlaylistSong>{
 		const playlistSong = await this.dbConnection.client.playlistsongs.create({data: data});

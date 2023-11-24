@@ -5,10 +5,9 @@ import { Album } from "../models/Album";
 
 export class AlbumDAO{
 	dbConnection: PrismaConnection;
-
-	constructor(dbConnection: PrismaConnection){
-		this.dbConnection = dbConnection;
-		this.dbConnection.connect();
+	
+	constructor(){
+		this.dbConnection = PrismaConnection.getInstance();
 	}
 
 	async create(data: Album): Promise<Album>{

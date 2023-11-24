@@ -4,11 +4,11 @@ import { UserAlbum } from "../models/UserAlbum";
 
 export class UserAlbumDAO{
 	dbConnection: PrismaConnection;
-
-	constructor(dbConnection: PrismaConnection){
-		this.dbConnection = dbConnection;
-		this.dbConnection.connect();
+	
+	constructor(){
+		this.dbConnection = PrismaConnection.getInstance();
 	}
+
 
 	async create(data: UserAlbumDTO): Promise<UserAlbum>{
 		const userAlbum = await this.dbConnection.client.useralbums.create({data: data});

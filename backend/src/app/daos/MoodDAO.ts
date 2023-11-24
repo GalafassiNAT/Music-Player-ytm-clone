@@ -4,11 +4,11 @@ import { Mood } from "../models/Mood";
 
 export class MoodDAO{
 	dbConnection: PrismaConnection;
-
-	constructor(dbConnection: PrismaConnection){
-		this.dbConnection = dbConnection;
-		this.dbConnection.connect();
+	
+	constructor(){
+		this.dbConnection = PrismaConnection.getInstance();
 	}
+
 
 	async create(data: MoodDTO): Promise<Mood>{
 		const mood = await this.dbConnection.client.mood.create({data: data});

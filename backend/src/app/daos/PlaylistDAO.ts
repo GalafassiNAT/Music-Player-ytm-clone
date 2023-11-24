@@ -3,15 +3,16 @@ import { PlaylistDTO } from "../dtos/PlaylistDTO";
 import { Playlist } from "../models/Playlist";
 
 export class PlaylistDAO{
-	dbconnection: PrismaConnection;
-
-	constructor(dbconnection: PrismaConnection){
-		this.dbconnection = dbconnection;
-		this.dbconnection.connect();
+	dbConnection: PrismaConnection;
+	
+	constructor(){
+		this.dbConnection = PrismaConnection.getInstance();
 	}
 
+
 	async create(data: PlaylistDTO): Promise<Playlist>{
-		const playlist = await this.dbconnection.client.playlist.create({data: data});
+		const
+		const playlist = await this.dbConnection.client.playlist.create({data: data});
 		return playlist;
 	}
 
@@ -20,7 +21,7 @@ export class PlaylistDAO{
 			return null;
 
 		try {
-			const playlist = await this.dbconnection.client.playlist.update({where, data});
+			const playlist = await this.dbConnection.client.playlist.update({where, data});
 			return playlist;
 		} catch (error) {
 			return null;
@@ -31,7 +32,7 @@ export class PlaylistDAO{
 		if(!where)
 			return null;
 
-		const playlist = await this.dbconnection.client.playlist.findUnique({where});
+		const playlist = await this.dbConnection.client.playlist.findUnique({where});
 		return playlist;
 	}
 
@@ -40,7 +41,7 @@ export class PlaylistDAO{
 			return null;
 
 		try{
-			const playlist = await this.dbconnection.client.playlist.delete({where});
+			const playlist = await this.dbConnection.client.playlist.delete({where});
 			return playlist;
 		}catch(error){
 			return null;

@@ -4,11 +4,11 @@ import { Likes } from "../models/Likes";
 
 export class LikesDAO{
 	dbConnection: PrismaConnection;
-
-	constructor(dbConnection: PrismaConnection){
-		this.dbConnection = dbConnection;
-		this.dbConnection.connect();
+	
+	constructor(){
+		this.dbConnection = PrismaConnection.getInstance();
 	}
+
 
 	async create(data: LikesDTO): Promise<Likes>{
 		const likes = await this.dbConnection.client.likes.create({data: data});
