@@ -29,4 +29,13 @@ export class Song{
 		this.updatedAt = updatedAt;
 		this.artists = artists;
 	}
+
+	static totalDuration(songs: Song[]): number{
+		let totalDuration = 0;
+		songs.forEach(song => {
+			totalDuration += song.duration;
+		});
+		return totalDuration;
+	}
+
 }

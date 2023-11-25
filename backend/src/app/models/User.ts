@@ -20,4 +20,5 @@ export class User{
 		this.updatedAt = updatedAt || new Date();
 		this.profilePicture = profilePicture || "";
 	}
+
 }

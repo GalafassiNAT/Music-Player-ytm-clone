@@ -14,8 +14,8 @@ export class UserDAO {
 	}
 
 
-	async create(data: UserDTO): Promise<User>{
-		if (await this.get(data.email)) throw new AppError("User already exists");
+	async create(data: UserDTO): Promise<User | null>{
+		if (await this.get(data.email)) return null;
 		
 		const user = await this.dbConnection.client.user.create({data: data});
 		return user;

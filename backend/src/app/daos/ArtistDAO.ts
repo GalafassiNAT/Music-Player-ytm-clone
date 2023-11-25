@@ -19,37 +19,54 @@ export class ArtistDAO {
 	}
 	
 
-	async update(where : Artist, data: ArtistDTO): Promise<ArtistDTO | null>{
+	async update(where : Partial<Artist>, data: ArtistDTO): Promise<ArtistDTO | null>{
 		
 		if(!where)
 			return null;
 
 		try {
-			const artist = await this.dbConnection.client.artist.update({where, data});
+			const artist = await this.dbConnection.client.artist.update({where: {id: where.id}, data});
 			return artist;
 		} catch (error) {
 			return null;
 		}
 	}
 
-	async delete(where: Artist): Promise<ArtistDTO | null>{
+	async delete(where: Partial<Artist>): Promise<ArtistDTO | null>{
 		
 		if(!where)
 			return null;
 		try{
-			const artist = await this.dbConnection.client.artist.delete({where});
+			const artist = await this.dbConnection.client.artist.delete({where: {id: where.id}});
 			return artist;
 		}catch(error){
 			return null;
 		}
 	}
 
-	async get(where: Artist): Promise<ArtistDTO | null>{
+	async get(where: Partial<Artist>): Promise<ArtistDTO | null | ArtistDTO[]>{
 		if(!where)
 			return null;
 
-		const artist = await this.dbConnection.client.artist.findUnique({where});
+		if(where.id){
+			const artist = await this.dbConnection.client.artist.findUnique({where: {id: where.id}});
+			return artist;
+		}
+		
+		const artist = await this.dbConnection.client.artist.findMany({where: {name: where.name}});
 		return artist;
+
 	}
+
+	async getAll(): Promise<ArtistDTO[]>{
+		const artists = await this.dbConnection.client.artist.findMany();
+		return artists;
+	}
+
+	async getAllWhere(where: Partial<Artist>): Promise<ArtistDTO[]>{
+		const artists = await this.dbConnection.client.artist.findMany({where});
+		return artists;
+	}
+	
 }
 

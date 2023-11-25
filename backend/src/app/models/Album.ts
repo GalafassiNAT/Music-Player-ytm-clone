@@ -1,5 +1,4 @@
 import { Artist } from "./Artist";
-import { totalDuration } from "../../utils/Utils";
 import { Song } from "./Song";
 
 export class Album{
@@ -20,8 +19,8 @@ export class Album{
 		this.name = name;
 		this.artist = artist || null;
 		this.artistId = artistId;
-		this.duration = totalDuration(songs) || 0;
 		this.songs = songs || [];
+		this.duration = Song.totalDuration(this.songs); 
 		this.description = description;
 		this.image = image;
 		this.releaseDate = releaseDate;

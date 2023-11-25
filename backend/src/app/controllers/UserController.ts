@@ -2,7 +2,7 @@ import { DAOManager } from "../daos/DAOManager";
 import { AppError } from "../errors/AppError";	
 import { Request, Response } from "express";
 import { UserDTO } from "../dtos/UserDTO";
-import { User } from "@prisma/client";
+import { User } from "../models/User";
 
 
 export class UserController{
@@ -13,12 +13,13 @@ export class UserController{
 		if(!req.body) throw new AppError("No information provided to create user");
 		const DTO = req.body as UserDTO;
 		const user = await userDAO.create(DTO);
+
+		if(!user) throw new AppError("User with this email already exists.");
 		res.json(user);
 	}
 
 	static async updateByID(req: Request, res: Response){
 		const userDAO = DAOManager.getInstance().userDAO;
-		
 		
 		const DTO = req.body as UserDTO;
 		const updatedUser = await userDAO.update({id: req.params.id}, DTO);
@@ -36,22 +37,11 @@ export class UserController{
 		res.json(updatedUser);
 	}
 
-	static async deleteByID(req: Request, res: Response){
+	static async deleteByParam(req: Request, res: Response){
 		const userDAO = DAOManager.getInstance().userDAO;
-		const deletedUser = userDAO.delete({id: req.params.id});
-		if(!deletedUser) throw new AppError("No information provided to delete user");
-		
+		const deletedUser = await userDAO.delete(req.params);
 		res.json(deletedUser);
 	}
-
-	static async deleteByEmail(req: Request, res: Response){
-		const userDAO = DAOManager.getInstance().userDAO;
-		const deletedUser = userDAO.delete({email: req.params.email});
-		if(!deletedUser) throw new AppError("No information provided to delete user");
-		
-		res.json(deletedUser);
-	}
-
 
 	static async getByParam(req: Request, res: Response, param: string){
 		const userDAO = DAOManager.getInstance().userDAO;
@@ -69,7 +59,7 @@ export class UserController{
 		return users;
 	}
 	
-	static async getAllByName(req: Request, res: Response, condition: Partial<User>){
+	static async getAllWhere(req: Request, res: Response, condition: Partial<User>){
 		const userDAO = DAOManager.getInstance().userDAO;
 		
 		const users = await userDAO.getAllWhere(condition);
