@@ -1,6 +1,6 @@
-import { totalDuration } from "../../utils/Utils";
 import { PlaylistSong as playlistSongs } from "./PlaylistSong";
 import { User } from "./User";
+import { Song } from "./Song";
 
 
 export class Playlist{
@@ -29,7 +29,7 @@ export class Playlist{
 		this.songs = songs || [];
 		this.songCount = this.songs.length || songCount;
 		
-		this.duration = totalDuration(this.songs.map(playlistSongs => playlistSongs.song)) || 0;
+		this.duration = Song.totalDuration(this.songs.map(playlistSongs => playlistSongs.song)) || 0;
 		this.isPublic = isPublic || true;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;

@@ -11,8 +11,16 @@ export class SongDAO{
 	}
 
 
-	async create(data: SongDTO): Promise<Song>{
+	async create(data: SongDTO): Promise<Song | null>{
+		const verify = await this.dbConnection.client.song.findFirst({where: {name: data.name}, include: { artistsongs: true} });
+
+		if(verify && verify.artistsongs.map(artistsong => artistsong.artistId).includes(data.artistId))
+			return null;
+
 		const song = await this.dbConnection.client.song.create({data: data });
+
+		
+
 		return song;
 	}
 

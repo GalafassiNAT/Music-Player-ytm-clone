@@ -2,7 +2,7 @@ import { DAOManager } from "../daos/DAOManager";
 import { AppError } from "../errors/AppError";
 import { Request, Response } from "express";
 import { ArtistDTO } from "../dtos/ArtistDTO";
-import { Artist } from "../models/Artist";
+// import { Artist } from "../models/Artist";
 
 
 export class ArtistController{
