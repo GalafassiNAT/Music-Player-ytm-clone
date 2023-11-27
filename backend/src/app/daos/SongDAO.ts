@@ -56,7 +56,7 @@ export class SongDAO{
 
 			artists: song.artistsongs.map(artistsong => {
 				return {
-					id: artistsong.id,
+					id: artistsong.artistId,
 					artistId: artistsong.artistId,
 					songId: artistsong.songId,
 					createdAt: artistsong.createdAt

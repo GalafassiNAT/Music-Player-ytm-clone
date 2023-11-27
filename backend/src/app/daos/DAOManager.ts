@@ -1,19 +1,19 @@
-import { AlbumDAO } from "./AlbumDAO";
-import { ArtistDAO } from "./ArtistDAO";
-import { SongDAO } from "./SongDAO";
-import { UserDAO } from "./UserDAO";
-import { PlaylistDAO } from "./PlaylistDAO";
-import { PlaylistSongDAO } from "./PlaylistSongDAO";
-import { UserPlaylistDAO } from "./UserPlaylistDAO";
-import { UserAlbumDAO } from "./UserAlbumDAO";
-import { ArtistSongDAO } from "./ArtistSongDAO";
-import { FollowersDAO } from "./FollowersDAO";
-import { GenreDAO } from "./GenreDAO";
-import { SongGenreDAO } from "./SongGenreDAO";
-import { HistoryDAO } from "./HistoryDAO";
-import { LikesDAO } from "./LikesDAO";
-import { MoodDAO } from "./MoodDAO";
-import { SongMoodDAO } from "./SongMoodDAO";
+import { AlbumDAO } from "./AlbumDAO.ts";
+import { ArtistDAO } from "./ArtistDAO.ts";
+import { SongDAO } from "./SongDAO.ts";
+import { UserDAO } from "./UserDAO.ts";
+import { PlaylistDAO } from "./PlaylistDAO.ts";
+import { PlaylistSongDAO } from "./PlaylistSongDAO.ts";
+import { UserPlaylistDAO } from "./UserPlaylistDAO.ts";
+import { UserAlbumDAO } from "./UserAlbumDAO.ts";
+import { ArtistSongDAO } from "./ArtistSongDAO.ts";
+import { FollowersDAO } from "./FollowersDAO.ts";
+import { GenreDAO } from "./GenreDAO.ts";
+import { SongGenreDAO } from "./SongGenreDAO.ts";
+import { HistoryDAO } from "./HistoryDAO.ts";
+import { LikesDAO } from "./LikesDAO.ts";
+import { MoodDAO } from "./MoodDAO.ts";
+import { SongMoodDAO } from "./SongMoodDAO.ts";
 
 
 

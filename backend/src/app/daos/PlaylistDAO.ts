@@ -11,8 +11,9 @@ export class PlaylistDAO{
 
 
 	async create(data: PlaylistDTO): Promise<Playlist>{
-		const
+	
 		const playlist = await this.dbConnection.client.playlist.create({data: data});
+		
 		return playlist;
 	}
 

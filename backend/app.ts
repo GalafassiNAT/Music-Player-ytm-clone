@@ -2,7 +2,7 @@ import "express-async-errors";
 import { Request, Response } from "express";
 import express from "express";
 // import  { AppError } from "./src/app/errors/AppError";
-import { testRoute } from "./src/api/testRoutes";
+import  { testRoute }  from "./src/api/testRoutes.ts";
 
 const app = express();
 

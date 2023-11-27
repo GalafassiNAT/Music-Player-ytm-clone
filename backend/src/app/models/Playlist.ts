@@ -28,8 +28,8 @@ export class Playlist{
 		this.description = description;
 		this.songs = songs || [];
 		this.songCount = this.songs.length || songCount;
-		
-		this.duration = Song.totalDuration(this.songs.map(playlistSongs => playlistSongs.song)) || 0;
+		this.isPublic = isPublic !== undefined ? isPublic : true;
+		if(songs !== null) this.duration = Song.totalDuration(this.songs.map(song => song.song));
 		this.isPublic = isPublic || true;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;

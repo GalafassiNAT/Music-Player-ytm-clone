@@ -1,18 +1,18 @@
 import { Song } from "./Song";
 
 export class PlaylistSong{
-	id: string;
 	playlistId: string;
-	song: Song;
+	song?: Song;
 	songId: string;
 	createdAt: Date;
+	updatedAt: Date;
 
-	constructor(id: string, playlistId: string, song: Song, songId: string, createdAt: Date){
-		this.id = id;
+	constructor(playlistId: string, song: Song, songId: string, createdAt: Date, updatedAt: Date){
 		this.playlistId = playlistId;
 		this.songId = songId;
-		this.song = song;
+		this.song = song || null;
 		this.song.id = songId;
 		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
 	}
 }

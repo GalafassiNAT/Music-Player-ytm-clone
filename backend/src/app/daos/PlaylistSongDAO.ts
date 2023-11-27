@@ -1,6 +1,7 @@
-import { PrismaConnection } from "./DBDAO";
-import { PlaylistSongDTO } from "../dtos/PlaylistSongDTO";
-import { PlaylistSong } from "../models/PlaylistSong";
+import { PrismaConnection } from "./DBDAO.ts";
+import { PlaylistSongDTO } from "../dtos/PlaylistSongDTO.ts";
+import { PlaylistSong } from "../models/PlaylistSong.ts";
+import { AppError } from "../errors/AppError.ts";
 
 export class PlaylistSongDAO{
 	dbConnection: PrismaConnection;
@@ -10,18 +11,31 @@ export class PlaylistSongDAO{
 	}
 
 
-	async create(data: PlaylistSongDTO): Promise<PlaylistSong>{
+	async create(data: PlaylistSong): Promise<PlaylistSong>{
 		const playlistSong = await this.dbConnection.client.playlistsongs.create({data: data});
+
 		return playlistSong;
 	}
 
-	async update(where: PlaylistSong, data: PlaylistSongDTO): Promise<PlaylistSongDTO | null>{
+	async update(where: {playlistId: string, songId: string}, data: PlaylistSong): Promise<PlaylistSongDTO | null>{
 		if(!where)
 			return null;
 
 		try {
-			const playlistSong = await this.dbConnection.client.playlistsongs.update({where, data});
-			return playlistSong;
+			const playlistSong = await this.dbConnection.client.playlistsongs.update({where: {
+				playlistId_songId: {
+					playlistId: where.playlistId,
+					songId: where.songId
+				
+				}
+			}, 
+			data
+			});
+
+			const playlistSongDTO = new PlaylistSongDTO(playlistSong.playlistId, playlistSong.songId, playlistSong.createdAt, playlistSong.updatedAt);
+
+			return playlistSongDTO;
+
 		} catch (error) {
 			return null;
 		}
@@ -29,10 +43,15 @@ export class PlaylistSongDAO{
 
 	async get(where: PlaylistSong): Promise<PlaylistSongDTO | null>{
 		if(!where)
+			throw new AppError("No information provided to get playlistSong");
+
+		const playlistSong = await this.dbConnection.client.playlistsongs.findUnique({where: {playlistId_songId: {playlistId: where.playlistId, songId: where.songId}}});
+		if(!playlistSong)
 			return null;
 
-		const playlistSong = await this.dbConnection.client.playlistsongs.findUnique({where});
-		return playlistSong;
+		const playlistSongDTO = new PlaylistSongDTO(playlistSong.playlistId, playlistSong.songId, playlistSong.createdAt, playlistSong.updatedAt);
+
+		return playlistSongDTO;
 	}
 
 	async delete(where: PlaylistSong): Promise<PlaylistSongDTO | null>{
@@ -40,8 +59,11 @@ export class PlaylistSongDAO{
 			return null;
 
 		try{
-			const playlistSong = await this.dbConnection.client.playlistsongs.delete({where});
-			return playlistSong;
+			const playlistSong = await this.dbConnection.client.playlistsongs.delete({where: {playlistId_songId: {playlistId: where.playlistId, songId: where.songId}}});
+
+			const playlistSongDTO = new PlaylistSongDTO(playlistSong.playlistId, playlistSong.songId, playlistSong.createdAt, playlistSong.updatedAt);
+
+			return playlistSongDTO;
 		}catch(error){
 			return null;
 		}

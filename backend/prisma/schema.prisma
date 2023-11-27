@@ -172,6 +172,7 @@ model artistsongs {
   artistId  String
   songId    String
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   artists   Artist   @relation(fields: [artistId], references: [id], map: "artistSongs_artistId_fkey")
   songs     Song     @relation(fields: [songId], references: [id], map: "artistSongs_songId_fkey")
@@ -186,6 +187,7 @@ model playlistsongs {
   playlistId String
   songId     String
   createdAt  DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   playlists  Playlist @relation(fields: [playlistId], references: [id], map: "playlistSongs_playlistId_fkey")
   songs      Song     @relation(fields: [songId], references: [id], map: "playlistSongs_songId_fkey")
@@ -200,6 +202,7 @@ model songgenres {
   songId    String
   genreId   String
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   genres    Genre    @relation(fields: [genreId], references: [id], map: "songGenres_genreId_fkey")
   songs     Song     @relation(fields: [songId], references: [id], map: "songGenres_songId_fkey")
@@ -214,6 +217,7 @@ model songhistories {
   songId    String
   historyId String
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   histories History  @relation(fields: [historyId], references: [id], map: "songHistories_historyId_fkey")
   songs     Song     @relation(fields: [songId], references: [id], map: "songHistories_songId_fkey")
@@ -228,6 +232,7 @@ model songmoods {
   moodId    String
   songId    String
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   moods     Mood     @relation(fields: [moodId], references: [id], map: "songMoods_moodId_fkey")
   songs     Song     @relation(fields: [songId], references: [id], map: "songMoods_songId_fkey")
@@ -242,6 +247,7 @@ model useralbums {
   userId    String
   albumId   String
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   albums    Album    @relation(fields: [albumId], references: [id], map: "userAlbums_albumId_fkey")
   users     User     @relation(fields: [userId], references: [id], map: "userAlbums_userId_fkey")
@@ -256,6 +262,7 @@ model userplaylists {
   userId     String
   playlistId String
   createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
   playlists  Playlist @relation(fields: [playlistId], references: [id], map: "userPlaylists_playlistId_fkey")
   users      User     @relation(fields: [userId], references: [id], map: "userPlaylists_userId_fkey")

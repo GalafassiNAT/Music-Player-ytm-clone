@@ -1,8 +1,8 @@
-import { DAOManager } from "../daos/DAOManager";
-import { AppError } from "../errors/AppError";	
+import { DAOManager } from "../daos/DAOManager.ts";
+import { AppError } from "../errors/AppError.ts";	
 import { Request, Response } from "express";
-import { UserDTO } from "../dtos/UserDTO";
-import { User } from "../models/User";
+import { UserDTO } from "../dtos/UserDTO.ts";
+import { User } from "../models/User.ts";
 import bcrypt from "bcrypt";
 
 export class UserController{
