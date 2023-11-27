@@ -1,9 +1,10 @@
-import {Artist} from "./Artist";
+import { ArtistSong } from "./ArtistSong";
+
 export class Song{
 	id: string;
 	name: string;
 	duration: number;
-	artistId: number;
+	artistId: string;
 	albumId: string;
 	description: string;
 	contentURL: string;
@@ -13,9 +14,9 @@ export class Song{
 	filePath: string;
 	createdAt: Date;
 	updatedAt: Date;
-	artists: Artist[];
+	artists: ArtistSong[];
 
-	constructor(id: string, name: string, duration: number, artistId: number, albumId: string, description: string, contentURL: string, cover: string,numberOfLikes: number, releaseDate: Date, filePath: string, createdAt: Date, updatedAt: Date, artists: Artist[]){
+	constructor(id: string, name: string, duration: number, artistId: string, albumId: string, description: string, contentURL: string, cover: string,numberOfLikes: number, releaseDate: Date, filePath: string, createdAt: Date, updatedAt: Date, artists: ArtistSong[]){
 		this.id = id;
 		this.name = name;
 		this.duration = duration;
