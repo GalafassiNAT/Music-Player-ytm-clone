@@ -1,6 +1,6 @@
-import { PrismaConnection } from "./DBDAO";
-import { UserAlbumDTO } from "../dtos/UserAlbumDTO";
-import { UserAlbum } from "../models/UserAlbum";
+import { PrismaConnection } from "./DBDAO.ts";
+import { UserAlbumDTO } from "../dtos/UserAlbumDTO.ts";
+import { UserAlbum } from "../models/UserAlbum.ts";
 
 export class UserAlbumDAO{
 	dbConnection: PrismaConnection;
@@ -20,7 +20,16 @@ export class UserAlbumDAO{
 			return null;
 
 		try {
-			const userAlbum = await this.dbConnection.client.useralbums.update({where, data});
+			const userAlbum = await this.dbConnection.client.useralbums.update({
+				where: {
+					userId_albumId: {
+						userId: where.userId, 
+						albumId: where.albumId
+					}
+				},
+				
+				data});
+
 			return userAlbum;
 		} catch (error) {
 			return null;
@@ -31,7 +40,14 @@ export class UserAlbumDAO{
 		if(!where)
 			return null;
 
-		const userAlbum = await this.dbConnection.client.useralbums.findUnique({where});
+		const userAlbum = await this.dbConnection.client.useralbums.findUnique({
+			where:{
+				userId_albumId: {
+					userId: where.userId,
+					albumId: where.albumId
+				}
+			}});
+
 		return userAlbum;
 	}
 
@@ -40,7 +56,15 @@ export class UserAlbumDAO{
 			return null;
 
 		try{
-			const userAlbum = await this.dbConnection.client.useralbums.delete({where});
+			const userAlbum = await this.dbConnection.client.useralbums.delete({
+				where:{
+					userId_albumId: {
+						userId: where.userId,
+						albumId: where.albumId
+					}
+				}
+			});
+			
 			return userAlbum;
 		}catch(error){
 			return null;

@@ -1,6 +1,6 @@
-import { PrismaConnection } from "./DBDAO";
-import { MoodDTO } from "../dtos/MoodDTO";
-import { Mood } from "../models/Mood";
+import { PrismaConnection } from "./DBDAO.ts";
+import { MoodDTO } from "../dtos/MoodDTO.ts";
+import { Mood } from "../models/Mood.ts";
 
 export class MoodDAO{
 	dbConnection: PrismaConnection;

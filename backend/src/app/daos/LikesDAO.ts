@@ -1,6 +1,6 @@
-import { PrismaConnection } from "./DBDAO";
-import { LikesDTO } from "../dtos/LikesDTO";
-import { Likes } from "../models/Likes";
+import { PrismaConnection } from "./DBDAO.ts";
+import { LikesDTO } from "../dtos/LikesDTO.ts";
+import { Likes } from "../models/Likes.ts";
 
 export class LikesDAO{
 	dbConnection: PrismaConnection;
@@ -20,7 +20,15 @@ export class LikesDAO{
 			return null;
 
 		try {
-			const likes = await this.dbConnection.client.likes.update({where, data});
+			const likes = await this.dbConnection.client.likes.update({
+				where:{
+					userId_songId:{
+						userId: where.userId,
+						songId: where.songId
+					}
+				
+				}, data});
+
 			return likes;
 		} catch (error) {
 			return null;
@@ -31,7 +39,14 @@ export class LikesDAO{
 		if(!where)
 			return null;
 
-		const likes = await this.dbConnection.client.likes.findUnique({where});
+		const likes = await this.dbConnection.client.likes.findUnique({
+			where:{
+				userId_songId:{
+					userId: where.userId,
+					songId: where.songId
+				}
+		
+			}});
 		return likes;
 	}
 
@@ -40,7 +55,14 @@ export class LikesDAO{
 			return null;
 
 		try{
-			const likes = await this.dbConnection.client.likes.delete({where});
+			const likes = await this.dbConnection.client.likes.delete({
+				where:{
+					userId_songId:{
+						userId: where.userId,
+						songId: where.songId
+					}
+				}});
+
 			return likes;
 		}catch(error){
 			return null;

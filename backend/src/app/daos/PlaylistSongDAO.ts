@@ -11,9 +11,20 @@ export class PlaylistSongDAO{
 	}
 
 
-	async create(data: PlaylistSong): Promise<PlaylistSong>{
-		const playlistSong = await this.dbConnection.client.playlistsongs.create({data: data});
-
+	async create(data: PlaylistSong): Promise<PlaylistSong | null>{
+		
+		const playlistSong = await this.dbConnection.client.playlistsongs.create({data: {
+			playlistId: data.playlistId,
+			songId: data.songId,
+			
+		}, 
+		
+		});
+	
+		// const song = await this.dbConnection.client.song.findUnique({where: {id: playlistSong.songId}});
+		// if(!song)
+		// 	return null;
+		// playlistSong.songs = song;
 		return playlistSong;
 	}
 

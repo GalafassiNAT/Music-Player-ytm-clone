@@ -1,6 +1,6 @@
-import { PrismaConnection } from "./DBDAO";
-import { GenreDTO } from "../dtos/GenreDTO";
-import { Genre } from "../models/Genre";
+import { PrismaConnection } from "./DBDAO.ts";
+import { GenreDTO } from "../dtos/GenreDTO.ts";
+import { Genre } from "../models/Genre.ts";
 
 export class GenreDAO{
 	dbConnection: PrismaConnection;

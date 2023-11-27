@@ -1,5 +1,5 @@
-import { Artist } from "./Artist";
-import { Song } from "./Song";
+import { Artist } from "./Artist.ts";
+import { Song } from "./Song.ts";
 
 export class Album{
 	id: string;

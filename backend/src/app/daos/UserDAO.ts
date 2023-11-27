@@ -1,7 +1,7 @@
-import { PrismaConnection } from "./DBDAO";
-import { UserDTO } from "../dtos/UserDTO";
-import { User } from "../models/User";	
-import { AppError } from "../errors/AppError";
+import { PrismaConnection } from "./DBDAO.ts";
+import { UserDTO } from "../dtos/UserDTO.ts";
+import { User } from "../models/User.ts";	
+import { AppError } from "../errors/AppError.ts";
 
 
 

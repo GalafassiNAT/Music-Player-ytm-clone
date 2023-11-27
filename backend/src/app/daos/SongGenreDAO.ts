@@ -1,6 +1,6 @@
-import { PrismaConnection } from "./DBDAO";
-import { SongGenreDTO } from "../dtos/SongGenreDTO";
-import { SongGenre } from "../models/SongGenre";
+import { PrismaConnection } from "./DBDAO.ts";
+import { SongGenreDTO } from "../dtos/SongGenreDTO.ts";
+import { SongGenre } from "../models/SongGenre.ts";
 
 export class SongGenreDAO{
 	dbConnection: PrismaConnection;
@@ -20,7 +20,15 @@ export class SongGenreDAO{
 			return null;
 
 		try {
-			const songGenre = await this.dbConnection.client.songgenres.update({where, data});
+			const songGenre = await this.dbConnection.client.songgenres.update({
+				where:{
+					songId_genreId:{
+						songId: where.songId,
+						genreId: where.genreId
+					}
+				
+				}, data});
+	
 			return songGenre;
 		} catch (error) {
 			return null;
@@ -31,7 +39,14 @@ export class SongGenreDAO{
 		if(!where)
 			return null;
 
-		const songGenre = await this.dbConnection.client.songgenres.findUnique({where});
+		const songGenre = await this.dbConnection.client.songgenres.findUnique({
+			where:{
+				songId_genreId:{
+					songId: where.songId,
+					genreId: where.genreId
+				}
+
+			}});
 		return songGenre;
 	}
 
@@ -40,7 +55,15 @@ export class SongGenreDAO{
 			return null;
 
 		try{
-			const songGenre = await this.dbConnection.client.songgenres.delete({where});
+			const songGenre = await this.dbConnection.client.songgenres.delete({
+				where:{
+					songId_genreId:{
+						songId: where.songId,
+						genreId: where.genreId
+					}
+				
+				}});
+
 			return songGenre;
 		}catch(error){
 			return null;

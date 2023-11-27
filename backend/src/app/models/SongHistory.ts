@@ -1,11 +1,9 @@
 export class SongHistory{
-	id: string;
 	songId: string;
 	historyId: string;
 	createdAt: Date;
 
-	constructor(id: string, songId: string, historyId: string, createdAt: Date){
-		this.id = id;
+	constructor(songId: string, historyId: string, createdAt: Date){
 		this.songId = songId;
 		this.historyId = historyId;
 		this.createdAt = createdAt;

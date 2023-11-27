@@ -1,6 +1,6 @@
-import { PrismaConnection } from "./DBDAO";
-import { ArtistDTO } from "../dtos/ArtistDTO";
-import { Artist } from "../models/Artist";
+import { PrismaConnection } from "./DBDAO.ts";
+import { ArtistDTO } from "../dtos/ArtistDTO.ts";
+import { Artist } from "../models/Artist.ts";
 
 
 

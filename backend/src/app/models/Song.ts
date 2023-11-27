@@ -1,4 +1,4 @@
-import { ArtistSong } from "./ArtistSong";
+import { ArtistSong } from "./ArtistSong.ts";
 
 export class Song{
 	id: string;

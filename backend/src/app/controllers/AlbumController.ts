@@ -1,8 +1,8 @@
-import { DAOManager } from "../daos/DAOManager";
-import { AppError } from "../errors/AppError";	
+import { DAOManager } from "../daos/DAOManager.ts";
+import { AppError } from "../errors/AppError.ts";	
 import { Request, Response } from "express";
-import { AlbumDTO } from "../dtos/AlbumDTO";
-import { Album } from "../models/Album";
+import { AlbumDTO } from "../dtos/AlbumDTO.ts";
+import { Album } from "../models/Album.ts";
 
 export class AlbumController{
 

@@ -1,12 +1,10 @@
 export class Followers{
-	id: string;
 	userId: string;
 	artistId: string;
 	createdAt: Date;
 	updatedAt: Date;	
 
-	constructor(id: string, userId: string, artistId: string, createdAt: Date, updatedAt: Date){
-		this.id = id;
+	constructor(userId: string, artistId: string, createdAt: Date, updatedAt: Date){
 		this.userId = userId;
 		this.artistId = artistId;
 		this.createdAt = createdAt;

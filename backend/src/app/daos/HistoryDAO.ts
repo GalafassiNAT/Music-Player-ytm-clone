@@ -1,6 +1,6 @@
-import { PrismaConnection } from "./DBDAO";
-import { HistoryDTO } from "../dtos/HistoryDTO";
-import { History } from "../models/History";
+import { PrismaConnection } from "./DBDAO.ts";
+import { HistoryDTO } from "../dtos/HistoryDTO.ts";
+import { History } from "../models/History.ts";
 
 export class HistoryDAO{
 	dbConnection: PrismaConnection;

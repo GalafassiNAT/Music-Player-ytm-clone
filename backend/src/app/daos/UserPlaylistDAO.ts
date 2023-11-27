@@ -1,6 +1,6 @@
-import { PrismaConnection } from "./DBDAO";
-import { UserPlaylistDTO } from "../dtos/UserPlaylistDTO";
-import { UserPlaylist } from "../models/UserPlaylist";
+import { PrismaConnection } from "./DBDAO.ts";
+import { UserPlaylistDTO } from "../dtos/UserPlaylistDTO.ts";
+import { UserPlaylist } from "../models/UserPlaylist.ts";
 
 export class UserPlaylistDAO{
 	dbConnection: PrismaConnection;
@@ -20,7 +20,16 @@ export class UserPlaylistDAO{
 			return null;
 
 		try {
-			const userPlaylist = await this.dbConnection.client.userplaylists.update({where, data});
+			const userPlaylist = await this.dbConnection.client.userplaylists.update({
+				where: {
+					userId_playlistId: {
+						userId: where.userId, 
+						playlistId: where.playlistId
+					}
+				}, 
+				data
+			});
+
 			return userPlaylist;
 		} catch (error) {
 			return null;
@@ -31,7 +40,14 @@ export class UserPlaylistDAO{
 		if(!where)
 			return null;
 
-		const userPlaylist = await this.dbConnection.client.userplaylists.findUnique({where});
+		const userPlaylist = await this.dbConnection.client.userplaylists.findUnique({
+			where: {
+				userId_playlistId: {
+					userId: where.userId, 
+					playlistId: where.playlistId
+				}
+			}
+		});
 		return userPlaylist;
 	}
 
@@ -40,7 +56,14 @@ export class UserPlaylistDAO{
 			return null;
 
 		try{
-			const userPlaylist = await this.dbConnection.client.userplaylists.delete({where});
+			const userPlaylist = await this.dbConnection.client.userplaylists.delete({
+				where: {
+					userId_playlistId: {
+						userId: where.userId, 
+						playlistId: where.playlistId
+					}
+				}
+			});
 			return userPlaylist;
 		}catch(error){
 			return null;

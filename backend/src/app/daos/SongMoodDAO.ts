@@ -1,6 +1,6 @@
-import { PrismaConnection } from "./DBDAO";
-import { SongMoodDTO } from "../dtos/SongMoodDTO";
-import { SongMood } from "../models/SongMood";
+import { PrismaConnection } from "./DBDAO.ts";
+import { SongMoodDTO } from "../dtos/SongMoodDTO.ts";
+import { SongMood } from "../models/SongMood.ts";
 
 export class SongMoodDAO{
 	dbConnection: PrismaConnection;
@@ -20,7 +20,15 @@ export class SongMoodDAO{
 			return null;
 
 		try {
-			const songMood = await this.dbConnection.client.songmoods.update({where, data});
+			const songMood = await this.dbConnection.client.songmoods.update({
+				where:{
+					songId_moodId:{
+						moodId: where.moodId,
+						songId: where.songId
+					}
+				
+				}, data});
+
 			return songMood;
 		} catch (error) {
 			return null;
@@ -31,7 +39,15 @@ export class SongMoodDAO{
 		if(!where)
 			return null;
 
-		const songMood = await this.dbConnection.client.songmoods.findUnique({where});
+		const songMood = await this.dbConnection.client.songmoods.findUnique({
+			where:{
+				songId_moodId:{
+					moodId: where.moodId,
+					songId: where.songId
+				}
+
+			}});
+
 		return songMood;
 	}
 
@@ -40,7 +56,15 @@ export class SongMoodDAO{
 			return null;
 
 		try{
-			const songMood = await this.dbConnection.client.songmoods.delete({where});
+			const songMood = await this.dbConnection.client.songmoods.delete({
+				where:{
+					songId_moodId:{
+						moodId: where.moodId,
+						songId: where.songId
+					}
+
+				}});
+
 			return songMood;
 		}catch(error){
 			return null;

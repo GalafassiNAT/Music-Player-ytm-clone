@@ -1,7 +1,7 @@
-import { DAOManager } from "../daos/DAOManager";
-import { AppError } from "../errors/AppError";
+import { DAOManager } from "../daos/DAOManager.ts";
+import { AppError } from "../errors/AppError.ts";
 import { Request, Response } from "express";
-import { ArtistDTO } from "../dtos/ArtistDTO";
+import { ArtistDTO } from "../dtos/ArtistDTO.ts";
 // import { Artist } from "../models/Artist";
 
 

@@ -1,6 +1,6 @@
-import { PrismaConnection } from "./DBDAO";
-import { ArtistSongDTO } from "../dtos/ArtistSongDTO";
-import { ArtistSong } from "../models/ArtistSong";
+import { PrismaConnection } from "./DBDAO.ts";
+import { ArtistSongDTO } from "../dtos/ArtistSongDTO.ts";
+import { ArtistSong } from "../models/ArtistSong.ts";
 
 export class ArtistSongDAO{
 	dbConnection: PrismaConnection;
@@ -20,7 +20,15 @@ export class ArtistSongDAO{
 			return null;
 
 		try {
-			const artistSong = await this.dbConnection.client.artistsongs.update({where, data});
+			const artistSong = await this.dbConnection.client.artistsongs.update({
+				where:{
+					artistId_songId:{
+						artistId: where.artistId,
+						songId: where.songId
+					}
+				
+				}, data});
+
 			return artistSong;
 		} catch (error) {
 			return null;
@@ -31,7 +39,14 @@ export class ArtistSongDAO{
 		if(!where)
 			return null;
 
-		const artistSong = await this.dbConnection.client.artistsongs.findUnique({where});
+		const artistSong = await this.dbConnection.client.artistsongs.findUnique({
+			where:{
+				artistId_songId:{
+					artistId: where.artistId,
+					songId: where.songId
+				}
+			}});
+		
 		return artistSong;
 	}
 
@@ -40,7 +55,14 @@ export class ArtistSongDAO{
 			return null;
 
 		try{
-			const artistSong = await this.dbConnection.client.artistsongs.delete({where});
+			const artistSong = await this.dbConnection.client.artistsongs.delete({
+				where:{
+					artistId_songId:{
+						artistId: where.artistId,
+						songId: where.songId
+					}
+				}});
+
 			return artistSong;
 		}catch(error){
 			return null;

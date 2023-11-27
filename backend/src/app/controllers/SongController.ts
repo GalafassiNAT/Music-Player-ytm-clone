@@ -1,7 +1,7 @@
-import { DAOManager } from "../daos/DAOManager";
-import { AppError } from "../errors/AppError";
+import { DAOManager } from "../daos/DAOManager.ts";
+import { AppError } from "../errors/AppError.ts";
 import { Request, Response } from "express";
-import { SongDTO } from "../dtos/SongDTO";
+import { SongDTO } from "../dtos/SongDTO.ts";
 
 
 export class SongController{

@@ -1,6 +1,6 @@
-import { PrismaConnection } from "./DBDAO";
-import { SongHistoryDTO } from "../dtos/SongHistoryDTO";
-import { SongHistory } from "../models/SongHistory";
+import { PrismaConnection } from "./DBDAO.ts";
+import { SongHistoryDTO } from "../dtos/SongHistoryDTO.ts";
+import { SongHistory } from "../models/SongHistory.ts";
 
 export class SongHystoryDAO{
 	dbConnection: PrismaConnection;
@@ -20,7 +20,13 @@ export class SongHystoryDAO{
 			return null;
 
 		try {
-			const songHistory = await this.dbConnection.client.songhistories.update({where, data});
+			const songHistory = await this.dbConnection.client.songhistories.update({
+				where:{
+					songId_historyId:{
+						historyId: where.historyId,
+						songId: where.songId
+					}
+				}, data});
 			return songHistory;
 		} catch (error) {
 			return null;
@@ -31,7 +37,14 @@ export class SongHystoryDAO{
 		if(!where)
 			return null;
 
-		const songHistory = await this.dbConnection.client.songhistories.findUnique({where});
+		const songHistory = await this.dbConnection.client.songhistories.findUnique({
+			where:{
+				songId_historyId:{
+					historyId: where.historyId,
+					songId: where.songId
+				}
+			}});
+
 		return songHistory;
 	}
 
@@ -40,7 +53,14 @@ export class SongHystoryDAO{
 			return null;
 
 		try{
-			const songHistory = await this.dbConnection.client.songhistories.delete({where});
+			const songHistory = await this.dbConnection.client.songhistories.delete({
+				where:{
+					songId_historyId:{
+						historyId: where.historyId,
+						songId: where.songId
+					}
+				}});
+				
 			return songHistory;
 		}catch(error){
 			return null;

@@ -106,6 +106,7 @@ model Playlist {
   name          String
   image         String
   userId        String
+  duration      Int
   description   String
   songCount     Int
   isPublic      Boolean

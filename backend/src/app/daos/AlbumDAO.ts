@@ -1,6 +1,6 @@
-import { PrismaConnection } from "./DBDAO";
-import { AlbumDTO } from "../dtos/AlbumDTO";
-import { Album } from "../models/Album";
+import { PrismaConnection } from "./DBDAO.ts";
+import { AlbumDTO } from "../dtos/AlbumDTO.ts";
+import { Album } from "../models/Album.ts";
 
 
 export class AlbumDAO{

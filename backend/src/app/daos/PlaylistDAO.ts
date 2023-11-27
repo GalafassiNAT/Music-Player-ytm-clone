@@ -1,6 +1,6 @@
-import { PrismaConnection } from "./DBDAO";
-import { PlaylistDTO } from "../dtos/PlaylistDTO";
-import { Playlist } from "../models/Playlist";
+import { PrismaConnection } from "./DBDAO.ts";
+import { PlaylistDTO } from "../dtos/PlaylistDTO.ts";
+import { Playlist } from "../models/Playlist.ts";
 
 export class PlaylistDAO{
 	dbConnection: PrismaConnection;
@@ -10,11 +10,23 @@ export class PlaylistDAO{
 	}
 
 
-	async create(data: PlaylistDTO): Promise<Playlist>{
-	
-		const playlist = await this.dbConnection.client.playlist.create({data: data});
+	async create(data: Playlist): Promise<PlaylistDTO>{
+		data.duration = await data.getTotalDuration();
+		const playlist = await this.dbConnection.client.playlist.create({data});
+		const playlistDTO = {
+			id: playlist.id,
+			name: playlist.name,
+			image: playlist.image,
+			userId: playlist.userId,
+			duration: playlist.duration,
+			description: playlist.description,
+			songCount: playlist.songCount,
+			isPublic: playlist.isPublic,
+			createdAt: playlist.createdAt,
+			updatedAt: playlist.updatedAt
+		};
 		
-		return playlist;
+		return playlistDTO;
 	}
 
 	async update(where: Playlist, data: PlaylistDTO): Promise<PlaylistDTO | null>{

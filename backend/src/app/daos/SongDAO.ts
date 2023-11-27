@@ -1,6 +1,6 @@
-import { PrismaConnection } from "./DBDAO";
-import { SongDTO } from "../dtos/SongDTO";
-import { Song } from "../models/Song";
+import { PrismaConnection } from "./DBDAO.ts";
+import { SongDTO } from "../dtos/SongDTO.ts";
+import { Song } from "../models/Song.ts";
 
 
 export class SongDAO{
@@ -79,11 +79,11 @@ export class SongDAO{
 		}
 	}
 
-	async get(where: Song): Promise<SongDTO | null>{
+	async get(where: Partial<Song>): Promise<SongDTO | null>{
 		if(!where)
 			return null;
 
-		const song = await this.dbConnection.client.song.findUnique({where, include: { artistsongs: true}});
+		const song = await this.dbConnection.client.song.findUnique({where: {id: where.id}, include: { artistsongs: true}});
 		if(!song)
 			return null;
 

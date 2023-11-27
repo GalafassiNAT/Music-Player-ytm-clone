@@ -1,6 +1,6 @@
-import { PrismaConnection } from "./DBDAO";
-import { FollowersDTO } from "../dtos/FollowersDTO";
-import { Followers } from "../models/Followers";
+import { PrismaConnection } from "./DBDAO.ts";
+import { FollowersDTO } from "../dtos/FollowersDTO.ts";
+import { Followers } from "../models/Followers.ts";
 
 export class FollowersDAO{
 	dbConnection: PrismaConnection;
@@ -20,7 +20,15 @@ export class FollowersDAO{
 			return null;
 
 		try {
-			const followers = await this.dbConnection.client.followers.update({where, data});
+			const followers = await this.dbConnection.client.followers.update({
+				where:{
+					userId_artistId:{
+						userId: where.userId,
+						artistId: where.artistId
+					}
+				
+				}, data});
+				
 			return followers;
 		} catch (error) {
 			return null;
@@ -31,7 +39,15 @@ export class FollowersDAO{
 		if(!where)
 			return null;
 
-		const followers = await this.dbConnection.client.followers.findUnique({where});
+		const followers = await this.dbConnection.client.followers.findUnique({
+			where:{
+				userId_artistId:{
+					userId: where.userId,
+					artistId: where.artistId
+				}
+		
+			}});
+
 		return followers;
 	}
 
@@ -40,7 +56,14 @@ export class FollowersDAO{
 			return null;
 
 		try{
-			const followers = await this.dbConnection.client.followers.delete({where});
+			const followers = await this.dbConnection.client.followers.delete({
+				where:{
+					userId_artistId:{
+						userId: where.userId,
+						artistId: where.artistId
+					}
+				}});
+
 			return followers;
 		}catch(error){
 			return null;
