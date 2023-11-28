@@ -114,7 +114,7 @@ export class AlbumDAO{
 		if(!where)
 			return null;
 
-		const album = await this.dbConnection.client.album.findFirst({where, include: {artist: true, song: true}});
+		const album = await this.dbConnection.client.album.findFirst({where: {id: where.id}, include: {artist: true, song: true}});
 		if(!album)
 			return null;	
 		const albumDTO = {	
@@ -155,7 +155,7 @@ export class AlbumDAO{
 	async getAllWhere(where: Partial<Album>): Promise<AlbumDTO[] | null>{
 		if(!where)
 			return null;
-		const albums = await this.dbConnection.client.album.findMany({where, include: {artist: true, song: true}});
+		const albums = await this.dbConnection.client.album.findMany({where: {id: where.id}, include: {artist: true, song: true}});
 		if(!albums)
 			return null;
 		const albumDTOs = albums.map(album => ({

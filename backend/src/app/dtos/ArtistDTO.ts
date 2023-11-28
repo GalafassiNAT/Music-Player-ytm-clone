@@ -4,7 +4,7 @@ export class ArtistDTO{
 	createdAt: Date;
 	updatedAt: Date;
 	profilePicture: string;
-	numberOfFollowers: number;
+	private numberOfFollowers: number;
 
 	constructor(name: string, about: string, createdAt: Date, updatedAt: Date, profilePicture: string, numberOfFollowers: number){
 		this.name = name;

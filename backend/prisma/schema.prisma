@@ -15,7 +15,7 @@ model User {
   createdAt      DateTime        @default(now())
   updatedAt      DateTime        @updatedAt
   profilePicture String
-  about          String
+  about          String?
   dateOfBirth    DateTime
 
   artist         Followers[]
@@ -31,7 +31,7 @@ model User {
 model Artist {
   id                String        @id @default(uuid())
   name              String
-  about             String
+  about             Bytes?
   createdAt         DateTime      @default(now())
   updatedAt         DateTime      @updatedAt
   profilePicture    String

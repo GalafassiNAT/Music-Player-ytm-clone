@@ -11,11 +11,20 @@ export class ArtistDAO {
 		this.dbConnection = PrismaConnection.getInstance();
 	}
 
-
-
 	async create(data: ArtistDTO): Promise<Artist>{
-		const artist = await this.dbConnection.client.artist.create({data: data});
-		return artist;
+		const artist = await this.dbConnection.client.artist.create({data: {
+			name: data.name,
+			about: Buffer.from(data.about),
+			profilePicture: data.profilePicture,
+			numberOfFollowers: 0
+		}});
+
+		const about = artist.about ? artist.about.toString() : "";
+
+		const artistObject = new Artist(artist.id, artist.name, about, artist.createdAt, artist.updatedAt, artist.profilePicture);
+		artistObject.setNumberOfFollowers(artist.numberOfFollowers);
+
+		return artistObject;
 	}
 	
 
@@ -25,8 +34,17 @@ export class ArtistDAO {
 			return null;
 
 		try {
-			const artist = await this.dbConnection.client.artist.update({where: {id: where.id}, data});
-			return artist;
+			const artist = await this.dbConnection.client.artist.update({where: {id: where.id}, data: {
+				name: data.name,
+				about: Buffer.from(data.about),
+				profilePicture: data.profilePicture
+			}});
+			
+			const about = artist.about ? artist.about.toString() : "";
+
+			const artistDTO = new ArtistDTO(artist.name, about, artist.createdAt, artist.updatedAt, artist.profilePicture, artist.numberOfFollowers);
+
+			return artistDTO;
 		} catch (error) {
 			return null;
 		}
@@ -38,7 +56,11 @@ export class ArtistDAO {
 			return null;
 		try{
 			const artist = await this.dbConnection.client.artist.delete({where: {id: where.id}});
-			return artist;
+			const about = artist.about ? artist.about.toString() : "";
+
+			const artistDTO = new ArtistDTO(artist.name, about, artist.createdAt, artist.updatedAt, artist.profilePicture, artist.numberOfFollowers);
+
+			return artistDTO;
 		}catch(error){
 			return null;
 		}
@@ -50,22 +72,42 @@ export class ArtistDAO {
 
 		if(where.id){
 			const artist = await this.dbConnection.client.artist.findUnique({where: {id: where.id}});
-			return artist;
+			if(!artist)
+				return null;
+			const about = artist.about ? artist.about.toString() : "";
+			const artistDTO = new ArtistDTO(artist.name, about, artist.createdAt, artist.updatedAt, artist.profilePicture, artist.numberOfFollowers);
+
+			return artistDTO;
 		}
 		
-		const artist = await this.dbConnection.client.artist.findMany({where: {name: where.name}});
-		return artist;
+		const artists = await this.dbConnection.client.artist.findMany({where: {name: where.name}});
+		if(!artists)
+			return null;
+
+		const artistsDTO = artists.map(artist => new ArtistDTO(artist.name, artist.about ? artist.about.toString() : "", artist.createdAt, artist.updatedAt, artist.profilePicture, artist.numberOfFollowers));
+
+		return artistsDTO;
 
 	}
 
-	async getAll(): Promise<ArtistDTO[]>{
+	async getAll(): Promise<ArtistDTO[] | null>{
 		const artists = await this.dbConnection.client.artist.findMany();
-		return artists;
+		if(!artists) return [];
+
+		const artistsDTO = artists.map(artist => new ArtistDTO(artist.name,  artist.about ? artist.about.toString() : "", artist.createdAt, artist.updatedAt, artist.profilePicture, artist.numberOfFollowers));
+
+		return artistsDTO;
 	}
 
 	async getAllWhere(where: Partial<Artist>): Promise<ArtistDTO[]>{
-		const artists = await this.dbConnection.client.artist.findMany({where});
-		return artists;
+
+		const artists = await this.dbConnection.client.artist.findMany({where: {name: where.name } || {numberOfFollowers: where.getNumberOfFollowers}});
+		if(!artists) return [];
+
+
+		const artistsDTO = artists.map(artist => new ArtistDTO(artist.name, artist.about ? artist.about.toString() : "", artist.createdAt, artist.updatedAt, artist.profilePicture, artist.numberOfFollowers));
+
+		return artistsDTO;
 	}
 	
 }

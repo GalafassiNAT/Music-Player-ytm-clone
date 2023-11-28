@@ -7,7 +7,7 @@ import { ArtistDTO } from "../dtos/ArtistDTO.ts";
 
 export class ArtistController{
 
-	static async create(req: Request, res: Response){
+	async create(req: Request, res: Response){
 		const artistDAO = DAOManager.getInstance().artistDAO;
 
 		if(!req.body) throw new AppError("No information provided to create artist");
@@ -17,7 +17,7 @@ export class ArtistController{
 
 	}
 
-	static async updateById(req: Request, res: Response){
+	async updateById(req: Request, res: Response){
 		const artistDAO = DAOManager.getInstance().artistDAO;
 		
 		const DTO = req.body as ArtistDTO;
@@ -27,7 +27,7 @@ export class ArtistController{
 		res.status(200).json(updatedArtist);
 	}
 
-	static async getById(req: Request, res: Response){
+	async getById(req: Request, res: Response){
 		const artistDAO = DAOManager.getInstance().artistDAO;
 
 		const artist = await artistDAO.get({id: req.params.id});
@@ -35,7 +35,7 @@ export class ArtistController{
 		res.status(200).json(artist);
 	}
 
-	static async getByName(req: Request, res: Response){
+	async getByName(req: Request, res: Response){
 		const artistDAO = DAOManager.getInstance().artistDAO;
 
 		const artist = await artistDAO.get({name: req.params.name});
@@ -43,21 +43,21 @@ export class ArtistController{
 		res.status(200).json(artist);
 	}
 
-	static async getAll(req: Request, res: Response){
+	async getAll(req: Request, res: Response){
 		const artistDAO = DAOManager.getInstance().artistDAO;
 
 		const artists = await artistDAO.getAll();
 		res.status(200).json(artists);
 	}
 
-	static async getAllWhere(req: Request, res: Response){
+	async getAllWhere(req: Request, res: Response){
 		const artistDAO = DAOManager.getInstance().artistDAO;
 
 		const artists = await artistDAO.getAllWhere(req.body);
 		res.status(200).json(artists);
 	}
 
-	static async deleteById(req: Request, res: Response){
+	async deleteById(req: Request, res: Response){
 		const artistDAO = DAOManager.getInstance().artistDAO;
 		const deletedArtist = await artistDAO.delete({id: req.params.id});
 		if(!deletedArtist) throw new AppError("Artist not found");

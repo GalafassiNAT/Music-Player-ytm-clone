@@ -12,6 +12,10 @@ export class UserController{
 
 		if(!req.body) throw new AppError("No information provided to create user");
 		const DTO = req.body as UserDTO;
+		const dateOfBirth = req.body.dateOfBirth as string;
+		const [day, month, year] = dateOfBirth.split("/");
+		DTO.dateOfBirth = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+
 		const hashedPassword = await bcrypt.hash(DTO.password, 12);
 
 		DTO.password = hashedPassword;
