@@ -16,9 +16,8 @@ export class UserDAO {
 
 	async create(data: UserDTO): Promise<User | null>{
 		if (await this.get(data.email)) return null;
-		
 		const user = await this.dbConnection.client.user.create({data: data});
-		return user;
+		const userObject = new User(user.id, user.userName, user.email, user.password, user.about, user.dateOfBirth, user.createdAt, user.updatedAt, user.profilePicture);	
 	}
 	
 

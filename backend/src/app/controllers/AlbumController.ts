@@ -30,7 +30,7 @@ export class AlbumController{
 
 	static async get(req: Request, res: Response){
 		const albumDAO = DAOManager.getInstance().albumDAO;
-		let criteria: Partial<Album> = {};
+		const criteria: Partial<Album> = {};
 
 		if(req.params.id) 
 			criteria.id = req.params.id;

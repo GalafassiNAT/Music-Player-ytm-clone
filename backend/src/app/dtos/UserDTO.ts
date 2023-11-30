@@ -12,7 +12,7 @@ export class UserDTO{
 		this.userName = userName;
 		this.email = email;
 		this.password = password;
-		this.about = about;
+		this.about = about || "";
 		this.dateOfBirth = dateOfBirth;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;

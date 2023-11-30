@@ -14,7 +14,7 @@ export class User{
 		this.userName = userName || " ";
 		this.email = email || "";
 		this.password = password || "";
-		this.about = about || "";
+		this.about = about || undefined;
 		this.dateOfBirth = dateOfBirth || new Date();
 		this.createdAt = createdAt 	|| new Date();
 		this.updatedAt = updatedAt || new Date();
